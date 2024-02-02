@@ -1,4 +1,4 @@
-package pl.jgmbl.yarnshop;
+package pl.jgmbl.yarnshop.homepage;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
