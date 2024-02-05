@@ -22,7 +22,7 @@ public class testLoginController {
     }
 
     @Test
-    public void testDisplayHomepage() throws Exception {
+    public void testDisplayLogin() throws Exception {
         mockMvc.perform(get("/login"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"));
