@@ -4,8 +4,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import pl.jgmbl.yarnshop.User;
-import pl.jgmbl.yarnshop.login.LoginController;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -29,5 +27,22 @@ public class TestLoginController {
         mockMvc.perform(get("/login").with(user("user")))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login2"));
+    }
+
+    @Test
+    public void testLogging() throws Exception {
+        mockMvc
+                .perform(get("/login").with(user("admin").password("password").roles("USER","ADMIN")))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testSubmitButton() throws Exception {
+        mockMvc.perform(get("/account")
+                .param("email", "admin@test.com")
+                .param("password", "password"))
+                .andExpect(view().name("account2"))
+                .andExpect(status().isOk());
+
     }
 }
