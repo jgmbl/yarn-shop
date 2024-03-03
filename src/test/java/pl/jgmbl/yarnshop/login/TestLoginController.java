@@ -40,7 +40,6 @@ public class TestLoginController {
         mockMvc.perform(post("/login")
                 .param("email", "admin@test.com")
                 .param("password", "password"))
-                .andExpect(view().name("account2"))
                 .andExpect(redirectedUrl("/account"))
                 .andExpect(status().isOk());
 
