@@ -41,7 +41,6 @@ public class TestLoginController {
                 .param("email", "admin@test.com")
                 .param("password", "password"))
                 .andExpect(redirectedUrl("/account"))
-                .andExpect(status().isOk());
-
+                .andExpect(status().is3xxRedirection());
     }
 }
