@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import pl.jgmbl.yarnshop.user.User;
 
 @Controller
 public class LoginController {
@@ -15,8 +16,8 @@ public class LoginController {
 
 
     @PostMapping("/login")
-    public String submitLoginForm (@ModelAttribute(name = "loginForm") LoginForm loginForm, Model model) {
-        if (loginForm.getEmail().equals("admin@test.com") && loginForm.getPassword().equals("password")) {
+    public String submitLoginForm (@ModelAttribute(name = "loginForm") User user, Model model) {
+        if (user.getEmail().equals("admin@test.com") && user.getPassword().equals("password")) {
             return "redirect:/account";
         }
 
