@@ -1,7 +1,9 @@
 package pl.jgmbl.yarnshop.user;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends CrudRepository<User, Integer> {
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<User, Integer> {
+    public Optional<User> findByEmail(String email);
 }
