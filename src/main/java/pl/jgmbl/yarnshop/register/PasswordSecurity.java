@@ -19,10 +19,7 @@ public class PasswordSecurity {
         byte[] salt = new byte[16];
         random.nextBytes(salt);
 
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-
-        byte[] hash = factory.generateSecret(spec).getEncoded();
+        byte[] hash = hashAlgorithm(salt, password);
 
         byte[] saltAndHash = new byte[hash.length + salt.length];
 
@@ -35,11 +32,9 @@ public class PasswordSecurity {
     public boolean checkPasswordHashing(String originalPassword, byte[] hashedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] salt = Arrays.copyOfRange(hashedPassword, hashedPassword.length - 16, hashedPassword.length);
 
-        PBEKeySpec spec = new PBEKeySpec(originalPassword.toCharArray(), salt, 65536, 128);
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        byte[] generatedHash = factory.generateSecret(spec).getEncoded();
+        byte[] hash = hashAlgorithm(salt, originalPassword);
 
-        return Arrays.equals(generatedHash, Arrays.copyOfRange(hashedPassword, 0, hashedPassword.length - 16));
+        return Arrays.equals(hash, Arrays.copyOfRange(hashedPassword, 0, hashedPassword.length - 16));
     }
 
     public String hashedPasswordToString(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -53,5 +48,12 @@ public class PasswordSecurity {
         System.arraycopy(hashedPassword, 0, extractedPassword, 0, passwordLength);
 
         return Arrays.toString(extractedPassword);
+    }
+
+    private static byte[] hashAlgorithm (byte[] salt, String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
+        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+
+        return factory.generateSecret(spec).getEncoded();
     }
 }
