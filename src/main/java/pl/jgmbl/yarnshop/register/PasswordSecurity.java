@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 @Component
 public class PasswordSecurity {
-    public byte[] hashPassword (String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public byte[] hashPassword(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
         SecureRandom random = new SecureRandom();
 
         byte[] salt = new byte[16];
@@ -40,5 +40,18 @@ public class PasswordSecurity {
         byte[] generatedHash = factory.generateSecret(spec).getEncoded();
 
         return Arrays.equals(generatedHash, Arrays.copyOfRange(hashedPassword, 0, hashedPassword.length - 16));
+    }
+
+    public String hashedPasswordToString(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        byte[] hashedPassword = hashPassword(password);
+
+        int temp = hashedPassword.length - password.length();
+        int passwordLength = hashedPassword.length - temp;
+
+        byte[] extractedPassword = new byte[passwordLength];
+
+        System.arraycopy(hashedPassword, 0, extractedPassword, 0, passwordLength);
+
+        return Arrays.toString(extractedPassword);
     }
 }
