@@ -5,10 +5,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -16,19 +17,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 public class TestRegisterController {
-    private static RegisterController registerController;
-    @MockBean
+
+    @Autowired
+    RegisterController registerController;
+
     private static MockMvc mockMvc;
+
     @Autowired
     PasswordSecurity passwordSecurity;
 
-    @Autowired
-    BCryptPasswordEncoder passwordEncoder;
-
-
     @BeforeEach
     public void setup() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new RegisterController()).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(registerController).build();
     }
 
     @Test
@@ -39,13 +39,13 @@ public class TestRegisterController {
     }
 
     @Test
-    public void testPasswordHashing() {
-        String hashedPassword = passwordSecurity.hashpassword("password");
-        String dehashedPassword = passwordEncoder.encode(hashedPassword);
+    public void testPasswordHashing() throws NoSuchAlgorithmException, InvalidKeySpecException {
+        String password = "password";
+        byte[] hashedPassword = passwordSecurity.hashPassword(password);
 
-        boolean passwordMatches = passwordEncoder.matches("password", dehashedPassword);
+        boolean checkedPasswordHashing = passwordSecurity.checkPasswordHashing(password, hashedPassword);
 
-        Assertions.assertTrue(passwordMatches);
+        Assertions.assertTrue(checkedPasswordHashing);
 
     }
 }
