@@ -1,4 +1,6 @@
-package pl.jgmbl.yarnshop.security;
+package pl.jgmbl.yarnshop.register;
+
+import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -8,6 +10,8 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
 
+
+@Component
 public class PasswordSecurity {
     public byte[] hashPassword (String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
         SecureRandom random = new SecureRandom();
@@ -29,12 +33,12 @@ public class PasswordSecurity {
     }
 
     public boolean checkPasswordHashing(String originalPassword, byte[] hashedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        byte[] salt = Arrays.copyOfRange(hashedPassword, originalPassword.length(), hashedPassword.length);
+        byte[] salt = Arrays.copyOfRange(hashedPassword, hashedPassword.length - 16, hashedPassword.length);
 
         PBEKeySpec spec = new PBEKeySpec(originalPassword.toCharArray(), salt, 65536, 128);
         SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         byte[] generatedHash = factory.generateSecret(spec).getEncoded();
 
-        return Arrays.equals(generatedHash, Arrays.copyOfRange(hashedPassword, 0, originalPassword.length()));
+        return Arrays.equals(generatedHash, Arrays.copyOfRange(hashedPassword, 0, hashedPassword.length - 16));
     }
 }
