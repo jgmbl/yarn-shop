@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 
 @Component
-public class PasswordSecurity {
+public class GeneratePassword {
     public byte[] hashPassword(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
         SecureRandom random = new SecureRandom();
 

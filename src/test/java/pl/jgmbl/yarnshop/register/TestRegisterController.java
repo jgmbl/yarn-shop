@@ -24,7 +24,7 @@ public class TestRegisterController {
     private static MockMvc mockMvc;
 
     @Autowired
-    PasswordSecurity passwordSecurity;
+    GeneratePassword generatePassword;
 
     @BeforeEach
     public void setup() {
@@ -41,11 +41,10 @@ public class TestRegisterController {
     @Test
     public void testPasswordHashing() throws NoSuchAlgorithmException, InvalidKeySpecException {
         String password = "password";
-        byte[] hashedPassword = passwordSecurity.hashPassword(password);
+        byte[] hashedPassword = generatePassword.hashPassword(password);
 
-        boolean checkedPasswordHashing = passwordSecurity.checkPasswordHashing(password, hashedPassword);
+        boolean checkedPasswordHashing = generatePassword.checkPasswordHashing(password, hashedPassword);
 
         Assertions.assertTrue(checkedPasswordHashing);
-
     }
 }
