@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.util.Arrays;
 
 public class PasswordSecurity {
     public byte[] hashPassword (String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -25,5 +26,15 @@ public class PasswordSecurity {
         System.arraycopy(salt, 0, saltAndHash, hash.length, salt.length);
 
         return saltAndHash;
+    }
+
+    public boolean checkPasswordHashing(String originalPassword, byte[] hashedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        byte[] salt = Arrays.copyOfRange(hashedPassword, originalPassword.length(), hashedPassword.length);
+
+        PBEKeySpec spec = new PBEKeySpec(originalPassword.toCharArray(), salt, 65536, 128);
+        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        byte[] generatedHash = factory.generateSecret(spec).getEncoded();
+
+        return Arrays.equals(generatedHash, Arrays.copyOfRange(hashedPassword, 0, originalPassword.length()));
     }
 }
