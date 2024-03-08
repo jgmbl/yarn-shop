@@ -3,10 +3,7 @@ package pl.jgmbl.yarnshop.register;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import pl.jgmbl.yarnshop.user.User;
 import pl.jgmbl.yarnshop.user.UserRepository;
-
-import java.util.Optional;
 
 @Service
 public class RegisterService {
@@ -17,13 +14,12 @@ public class RegisterService {
     @Autowired
     ComparePasswords comparePasswords;
 
-    boolean isFormNotBlank (String property, String property1, String property2) {
-        return property != null && property1 != null && property2 != null;
-    }
+    @Autowired
+    BlankFormValidator blankFormValidator;
 
-    boolean doesUserExist(String email) {
-        return userRepository.findByEmail(email).isPresent();
-    }
+    @Autowired
+    EmailValidator emailValidator;
+    
 
     public String registerUser(RegisterForm registerForm, Model model) {
 
@@ -31,8 +27,8 @@ public class RegisterService {
         String password = registerForm.getPassword();
         String confirmedPassword = registerForm.getConfirmpassword();
 
-        if (isFormNotBlank(email, password, confirmedPassword) && comparePasswords.comparePasswords(password, confirmedPassword)
-            && !doesUserExist(email)) {
+        if (blankFormValidator.isFormNotBlank(email, password, confirmedPassword) && comparePasswords.comparePasswords(password, confirmedPassword)
+            && !emailValidator.doesUserExist(email)) {
             return "redirect:/account";
         }
 

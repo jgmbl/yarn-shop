@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class TestLoginController {
+public class TestLogin {
 
     @MockBean
     private MockMvc mockMvc;
@@ -46,7 +46,7 @@ public class TestLoginController {
     }
 
     @Test
-    public void testSubmitButton() throws Exception {
+    public void testLogIn() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/login")
                         .param("email", "admin@test.com")
                         .param("password", "password"))
