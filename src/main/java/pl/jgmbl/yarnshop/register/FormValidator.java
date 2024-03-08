@@ -26,6 +26,6 @@ public class FormValidator implements RegisterFormValidator{
     }
 
     public boolean validator (String email, String password, String confirmedPassword) {
-        return formValidator(email) && formValidator(password, confirmedPassword) && formValidator(email, password, confirmedPassword);
+        return !formValidator(email) && formValidator(password, confirmedPassword) && formValidator(email, password, confirmedPassword);
     }
 }

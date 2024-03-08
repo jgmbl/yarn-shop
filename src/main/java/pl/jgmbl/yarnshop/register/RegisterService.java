@@ -7,20 +7,11 @@ import pl.jgmbl.yarnshop.user.UserRepository;
 
 @Service
 public class RegisterService {
-
-    @Autowired
-    UserRepository userRepository;
-
     @Autowired
     FormValidator formValidator;
 
     public String registerUser(RegisterForm registerForm, Model model) {
-
-        String email = registerForm.getEmail();
-        String password = registerForm.getPassword();
-        String confirmedPassword = registerForm.getConfirmpassword();
-
-        if (formValidator.validator(email, password, confirmedPassword)) {
+        if (formValidator.validator(registerForm.getEmail(), registerForm.getPassword(), registerForm.getConfirmpassword())) {
             return "redirect:/account";
         }
 
