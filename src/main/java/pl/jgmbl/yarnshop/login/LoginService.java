@@ -13,10 +13,10 @@ public class LoginService {
     @Autowired
     UserRepository userRepository;
 
-    public String submitLoginForm (LoginForm loginForm, User user, Model model) {
+    public String logInUser(LoginForm loginForm, Model model) {
         Optional<User> optionalUser = userRepository.findByEmail(loginForm.getEmail());
 
-        if (checkIfUserExists(user.getEmail())) {
+        if (optionalUser.isPresent()) {
 
             User existingUser = optionalUser.get();
 
@@ -26,13 +26,7 @@ public class LoginService {
         }
 
         model.addAttribute("InvalidCredentials", true);
-        return "redirect:/login";
-    }
-
-    boolean checkIfUserExists (String email) {
-        Optional<User> doesUserExists = userRepository.findByEmail(email);
-
-        return doesUserExists.isPresent();
+        return "login2";
     }
 }
 
