@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.security.NoSuchAlgorithmException;
@@ -27,7 +28,7 @@ public class TestRegister {
     HashPassword generatePassword;
 
     @Autowired
-    CheckPassword checkPassword;
+    RegisterService registerService;
 
     @BeforeEach
     public void setup() {
@@ -53,7 +54,17 @@ public class TestRegister {
 
     @Test
     public void testComparePasswords () {
-        Assertions.assertTrue(checkPassword.comparePasswords("password", "password"));
-        Assertions.assertFalse(checkPassword.comparePasswords("world", "word"));
+        Assertions.assertTrue(registerService.comparePasswords("password", "password"));
+        Assertions.assertFalse(registerService.comparePasswords("world", "word"));
+    }
+
+    @Test
+    public void testRegistration() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/register")
+                        .param("email", "admin@test.com")
+                        .param("password", "password")
+                        .param("confirmpassword", "password"))
+                .andExpect(view().name("account2"))
+                .andExpect(status().isOk());
     }
 }
