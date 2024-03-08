@@ -76,12 +76,22 @@ public class TestRegister {
     }
 
     @Test
-    public void testRegistration() throws Exception {
+    public void testRegistrationAccept() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/register")
-                        .param("email", "admin@test.com")
+                        .param("email", "host@test.com")
                         .param("password", "password")
                         .param("confirmpassword", "password"))
                 .andExpect(view().name("redirect:/account"))
                 .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    public void testRegistrationDenied() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/register")
+                        .param("email", "admin@test.com")
+                        .param("password", "password")
+                        .param("confirmpassword", "password"))
+                .andExpect(view().name("register2"))
+                .andExpect(status().isOk());
     }
 }
