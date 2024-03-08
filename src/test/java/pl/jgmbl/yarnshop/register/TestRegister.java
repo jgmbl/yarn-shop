@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @SpringBootTest
-public class TestRegisterController {
+public class TestRegister {
 
     @Autowired
     RegisterController registerController;
@@ -24,7 +24,10 @@ public class TestRegisterController {
     private static MockMvc mockMvc;
 
     @Autowired
-    GeneratePassword generatePassword;
+    HashPassword generatePassword;
+
+    @Autowired
+    CheckPassword checkPassword;
 
     @BeforeEach
     public void setup() {
@@ -46,5 +49,11 @@ public class TestRegisterController {
         boolean checkedPasswordHashing = generatePassword.checkPasswordHashing(password, hashedPassword);
 
         Assertions.assertTrue(checkedPasswordHashing);
+    }
+
+    @Test
+    public void testComparePasswords () {
+        Assertions.assertTrue(checkPassword.comparePasswords("password", "password"));
+        Assertions.assertFalse(checkPassword.comparePasswords("world", "word"));
     }
 }
