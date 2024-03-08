@@ -59,12 +59,20 @@ public class TestRegister {
     }
 
     @Test
+    public void testIsFormNotBlank () {
+        Assertions.assertTrue(registerService.isFormNotBlank("test@mail.com", "password", "password"));
+        Assertions.assertFalse(registerService.isFormNotBlank(null, "password", "password"));
+        Assertions.assertFalse(registerService.isFormNotBlank("test@mail.com", null, "password"));
+        Assertions.assertFalse(registerService.isFormNotBlank("test@mail.com", "password", null));
+    }
+
+    @Test
     public void testRegistration() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/register")
                         .param("email", "admin@test.com")
                         .param("password", "password")
                         .param("confirmpassword", "password"))
-                .andExpect(view().name("account2"))
-                .andExpect(status().isOk());
+                .andExpect(view().name("redirect:/account"))
+                .andExpect(status().is3xxRedirection());
     }
 }
