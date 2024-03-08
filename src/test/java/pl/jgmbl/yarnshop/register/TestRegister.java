@@ -30,6 +30,9 @@ public class TestRegister {
     @Autowired
     RegisterService registerService;
 
+    @Autowired
+    FormValidator formValidator;
+
     @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders.standaloneSetup(registerController).build();
@@ -54,16 +57,22 @@ public class TestRegister {
 
     @Test
     public void testComparePasswords () {
-        Assertions.assertTrue(registerService.comparePasswords("password", "password"));
-        Assertions.assertFalse(registerService.comparePasswords("world", "word"));
+        Assertions.assertTrue(formValidator.formValidator("password", "password"));
+        Assertions.assertFalse(formValidator.formValidator("world", "word"));
     }
 
     @Test
     public void testIsFormNotBlank () {
-        Assertions.assertTrue(registerService.isFormNotBlank("test@mail.com", "password", "password"));
-        Assertions.assertFalse(registerService.isFormNotBlank(null, "password", "password"));
-        Assertions.assertFalse(registerService.isFormNotBlank("test@mail.com", null, "password"));
-        Assertions.assertFalse(registerService.isFormNotBlank("test@mail.com", "password", null));
+        Assertions.assertTrue(formValidator.formValidator("test@mail.com", "password", "password"));
+        Assertions.assertFalse(formValidator.formValidator(null, "password", "password"));
+        Assertions.assertFalse(formValidator.formValidator("test@mail.com", null, "password"));
+        Assertions.assertFalse(formValidator.formValidator("test@mail.com", "password", null));
+    }
+
+    @Test
+    public void testDoesUserExist () {
+        Assertions.assertTrue(formValidator.formValidator("admin@test.com"));
+        Assertions.assertFalse(formValidator.formValidator("admin@1test.com"));
     }
 
     @Test

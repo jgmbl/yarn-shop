@@ -12,14 +12,7 @@ public class RegisterService {
     UserRepository userRepository;
 
     @Autowired
-    ComparePasswords comparePasswords;
-
-    @Autowired
-    BlankFormValidator blankFormValidator;
-
-    @Autowired
-    EmailValidator emailValidator;
-    
+    FormValidator formValidator;
 
     public String registerUser(RegisterForm registerForm, Model model) {
 
@@ -27,8 +20,7 @@ public class RegisterService {
         String password = registerForm.getPassword();
         String confirmedPassword = registerForm.getConfirmpassword();
 
-        if (blankFormValidator.isFormNotBlank(email, password, confirmedPassword) && comparePasswords.comparePasswords(password, confirmedPassword)
-            && !emailValidator.doesUserExist(email)) {
+        if (formValidator.validator(email, password, confirmedPassword)) {
             return "redirect:/account";
         }
 
