@@ -3,7 +3,7 @@ package pl.jgmbl.yarnshop.register;
 public class RegisterForm {
     String email;
     String password;
-    String repeatedPassword;
+    String confirmpassword;
 
     public RegisterForm() {
     }
@@ -24,11 +24,11 @@ public class RegisterForm {
         this.password = password;
     }
 
-    public String getRepeatedPassword() {
-        return repeatedPassword;
+    public String getConfirmpassword() {
+        return confirmpassword;
     }
 
-    public void setRepeatedPassword(String repeatedPassword) {
-        this.repeatedPassword = repeatedPassword;
+    public void setConfirmpassword(String confirmpassword) {
+        this.confirmpassword = confirmpassword;
     }
 }
