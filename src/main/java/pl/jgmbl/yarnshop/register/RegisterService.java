@@ -14,9 +14,8 @@ public class RegisterService {
     @Autowired
     UserRepository userRepository;
 
-    boolean comparePasswords (String password1, String password2) {
-        return password1.equals(password2);
-    }
+    @Autowired
+    ComparePasswords comparePasswords;
 
     boolean isFormNotBlank (String property, String property1, String property2) {
         return property != null && property1 != null && property2 != null;
@@ -32,7 +31,7 @@ public class RegisterService {
         String password = registerForm.getPassword();
         String confirmedPassword = registerForm.getConfirmpassword();
 
-        if (isFormNotBlank(email, password, confirmedPassword) && comparePasswords(password, confirmedPassword)
+        if (isFormNotBlank(email, password, confirmedPassword) && comparePasswords.comparePasswords(password, confirmedPassword)
             && !doesUserExist(email)) {
             return "redirect:/account";
         }
