@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ComparePasswords {
-    public boolean checkPassword (String password1, String password2) {
+    public boolean comparePasswords(String password1, String password2) {
         return password1.equals(password2);
     }
 }
