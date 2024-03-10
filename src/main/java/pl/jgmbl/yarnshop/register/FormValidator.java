@@ -5,22 +5,19 @@ import org.springframework.stereotype.Component;
 import pl.jgmbl.yarnshop.user.UserRepository;
 
 @Component
-public class FormValidator implements RegisterFormValidator{
+public class FormValidator {
 
     @Autowired
     UserRepository userRepository;
 
-    @Override
     public boolean formValidator(String email, String password, String confirmedPassword) {
         return email != null && password != null && confirmedPassword != null;
     }
 
-    @Override
     public boolean formValidator(String password, String confirmedPassword) {
         return password.equals(confirmedPassword);
     }
 
-    @Override
     public boolean formValidator(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
