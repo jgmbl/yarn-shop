@@ -19,7 +19,7 @@ public class FormValidator {
     }
 
     public boolean formValidator(String email) {
-        return userRepository.findByEmail(email).isPresent();
+        return userRepository.findByEmail(email.toLowerCase()).isPresent();
     }
 
     public boolean validator (String email, String password, String confirmedPassword) {
