@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.util.Arrays;
+
 
 @Entity
 public class User {
@@ -12,7 +14,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String email;
-    private String password;
+    private byte[] password;
+
+    public User(String email, byte[] hashedPassword) {
+        this.email = email;
+        this.password = hashedPassword;
+    }
 
     public User() {
     }
@@ -29,11 +36,20 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
+    public byte[] getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = password.getBytes();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + Arrays.toString(password) + '\'' +
+                '}';
     }
 }
