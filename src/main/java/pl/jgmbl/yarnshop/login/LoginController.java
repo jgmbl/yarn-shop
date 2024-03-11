@@ -6,14 +6,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import pl.jgmbl.yarnshop.user.UserRepository;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 @Controller
 public class LoginController {
-
-    @Autowired
-    UserRepository userRepository;
-
     @Autowired
     LoginService loginService;
 
@@ -24,7 +22,7 @@ public class LoginController {
 
 
     @PostMapping("/login")
-    public String submitLoginForm (@ModelAttribute(name = "loginForm") LoginForm loginForm, Model model) {
+    public String submitLoginForm (@ModelAttribute(name = "loginForm") LoginForm loginForm, Model model) throws NoSuchAlgorithmException, InvalidKeySpecException {
         return loginService.logInUser(loginForm, model);
     }
 }
