@@ -35,7 +35,7 @@ public class RegisterService {
 
             byte[] hashedPassword = hashPasswordService.hashPassword(registerForm.getPassword());
 
-            User user = new User(registerForm.getEmail(), hashedPassword);
+            User user = new User(registerForm.getEmail().toLowerCase(), hashedPassword);
             userRepository.save(user);
 
             return "redirect:/account";
