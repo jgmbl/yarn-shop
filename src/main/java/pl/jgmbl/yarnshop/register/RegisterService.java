@@ -6,8 +6,12 @@ import org.springframework.ui.Model;
 
 @Service
 public class RegisterService {
+    private final FormValidator formValidator;
+
     @Autowired
-    FormValidator formValidator;
+    public RegisterService(FormValidator formValidator) {
+        this.formValidator = formValidator;
+    }
 
     public String registerUser(RegisterForm registerForm, PasswordValidator passwordValidator, Model model) {
 

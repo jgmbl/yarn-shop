@@ -7,6 +7,9 @@ import pl.jgmbl.yarnshop.user.UserRepository;
 @Component
 public class FormValidator {
 
+    public FormValidator() {
+    }
+
     @Autowired
     UserRepository userRepository;
 

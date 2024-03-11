@@ -18,7 +18,7 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute(name = "registerForm") RegisterForm registerForm, Model model) {
-        return registerService.registerUser(registerForm, model);
+    public String registerUser(@ModelAttribute(name = "registerForm") RegisterForm registerForm, PasswordValidator passwordValidator, Model model) {
+        return registerService.registerUser(registerForm, passwordValidator, model);
     }
 }
