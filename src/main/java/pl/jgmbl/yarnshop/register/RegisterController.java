@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 @Controller
 public class RegisterController {
     @Autowired
@@ -18,7 +21,7 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute(name = "registerForm") RegisterForm registerForm, PasswordValidator passwordValidator, Model model) {
-        return registerService.registerUser(registerForm, passwordValidator, model);
+    public String registerUser(@ModelAttribute(name = "registerForm") RegisterForm registerForm, PasswordValidator passwordValidator, Model model) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        return registerService.registerUser(registerForm, model);
     }
 }

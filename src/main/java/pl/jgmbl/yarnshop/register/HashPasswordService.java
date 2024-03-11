@@ -1,6 +1,6 @@
 package pl.jgmbl.yarnshop.register;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -11,10 +11,10 @@ import java.security.spec.KeySpec;
 import java.util.Arrays;
 
 
-@Component
-public class HashPassword {
+@Service
+public class HashPasswordService {
 
-    public HashPassword() {
+    public HashPasswordService() {
     }
 
     public byte[] hashPassword(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -29,8 +29,6 @@ public class HashPassword {
 
         System.arraycopy(hash, 0, saltAndHash, 0, hash.length);
         System.arraycopy(salt, 0, saltAndHash, hash.length, salt.length);
-
-        // convert byte[] to String
 
         return saltAndHash;
     }
