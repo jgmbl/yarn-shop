@@ -13,6 +13,10 @@ import java.util.Arrays;
 
 @Component
 public class HashPassword {
+
+    public HashPassword() {
+    }
+
     public byte[] hashPassword(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
         SecureRandom random = new SecureRandom();
 
@@ -26,28 +30,17 @@ public class HashPassword {
         System.arraycopy(hash, 0, saltAndHash, 0, hash.length);
         System.arraycopy(salt, 0, saltAndHash, hash.length, salt.length);
 
+        // convert byte[] to String
+
         return saltAndHash;
     }
 
-    public boolean checkPasswordHashing(String originalPassword, byte[] hashedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public boolean checkHashedPasswords(String originalPassword, byte[] hashedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] salt = Arrays.copyOfRange(hashedPassword, hashedPassword.length - 16, hashedPassword.length);
 
         byte[] hash = hashAlgorithm(salt, originalPassword);
 
         return Arrays.equals(hash, Arrays.copyOfRange(hashedPassword, 0, hashedPassword.length - 16));
-    }
-
-    public String hashedPasswordToString(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        byte[] hashedPassword = hashPassword(password);
-
-        int temp = hashedPassword.length - password.length();
-        int passwordLength = hashedPassword.length - temp;
-
-        byte[] extractedPassword = new byte[passwordLength];
-
-        System.arraycopy(hashedPassword, 0, extractedPassword, 0, passwordLength);
-
-        return Arrays.toString(extractedPassword);
     }
 
     private static byte[] hashAlgorithm (byte[] salt, String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
