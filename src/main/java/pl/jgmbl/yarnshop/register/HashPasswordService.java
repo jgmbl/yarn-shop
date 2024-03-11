@@ -33,10 +33,10 @@ public class HashPasswordService {
         return saltAndHash;
     }
 
-    public boolean checkHashedPasswords(String originalPassword, byte[] hashedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public boolean checkHashedPasswords(String notHashedPassword, byte[] hashedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] salt = Arrays.copyOfRange(hashedPassword, hashedPassword.length - 16, hashedPassword.length);
 
-        byte[] hash = hashAlgorithm(salt, originalPassword);
+        byte[] hash = hashAlgorithm(salt, notHashedPassword);
 
         return Arrays.equals(hash, Arrays.copyOfRange(hashedPassword, 0, hashedPassword.length - 16));
     }
