@@ -1,4 +1,4 @@
-package pl.jgmbl.yarnshop.register;
+package pl.jgmbl.yarnshop;
 
 import org.springframework.stereotype.Service;
 
