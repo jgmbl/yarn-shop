@@ -17,4 +17,9 @@ public class ResetPasswordService {
 
         return findByEmail.isPresent();
     }
+
+    public boolean checkPasswords (String newPassword, String confirmPassword) {
+        return PasswordValidator.validateSpecialCharacters(newPassword) && PasswordValidator.validateLength(newPassword) &&
+                PasswordValidator.comparePasswords(newPassword, confirmPassword);
+    }
 }
