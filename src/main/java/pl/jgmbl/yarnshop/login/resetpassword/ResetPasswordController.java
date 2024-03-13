@@ -5,9 +5,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.jgmbl.yarnshop.login.LoginForm;
+import pl.jgmbl.yarnshop.user.User;
+
+import java.util.Optional;
 
 @Controller
 public class ResetPasswordController {
+
+    String confirmed_email = null;
+
     @Autowired
     ResetPasswordService resetPasswordService;
 
@@ -24,6 +30,7 @@ public class ResetPasswordController {
     @PostMapping("/login/resetpassword/email")
     public String confirmEmail(@ModelAttribute(name = "emailForm") EmailForm emailForm, Model model) {
         if (resetPasswordService.doesUserExist(emailForm.getEmail())) {
+            confirmed_email = emailForm.getEmail();
             return "redirect:/login/resetpassword/password";
         }
 
@@ -34,7 +41,14 @@ public class ResetPasswordController {
     @PostMapping("/login/resetpassword/password")
     public String resetPassword(@ModelAttribute(name = "resetForm") ResetForm resetForm, Model model) {
         if (resetPasswordService.checkPasswords(resetForm.getNewpassword(), resetForm.getConfirmpassword())) {
-            return "redirect:/login";
+            Optional<User> updatedUser = resetPasswordService.updatePassword(resetForm, confirmed_email);
+
+            if (updatedUser.isPresent()) {
+                return "redirect:/login";
+            } else {
+                model.addAttribute("InvalidCredentials", true);
+                return "resetpassword_passwords";
+            }
         }
 
         model.addAttribute("InvalidCredentials", true);
