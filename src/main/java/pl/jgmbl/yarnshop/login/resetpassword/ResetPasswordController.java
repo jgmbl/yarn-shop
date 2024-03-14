@@ -3,8 +3,9 @@ package pl.jgmbl.yarnshop.login.resetpassword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import pl.jgmbl.yarnshop.login.LoginForm;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import pl.jgmbl.yarnshop.user.User;
 
 import java.util.Optional;
@@ -41,7 +42,7 @@ public class ResetPasswordController {
     @PostMapping("/login/resetpassword/password")
     public String resetPassword(@ModelAttribute(name = "resetForm") ResetForm resetForm, Model model) {
         if (resetPasswordService.checkPasswords(resetForm.getNewpassword(), resetForm.getConfirmpassword())) {
-            Optional<User> updatedUser = resetPasswordService.updatePassword(resetForm, confirmed_email, resetForm.getNewpassword());
+            Optional<User> updatedUser = resetPasswordService.updatePassword(confirmed_email, resetForm.getNewpassword());
 
             if (updatedUser.isPresent()) {
                 return "redirect:/login";

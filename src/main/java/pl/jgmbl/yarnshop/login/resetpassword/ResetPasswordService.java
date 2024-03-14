@@ -29,7 +29,7 @@ public class ResetPasswordService {
                 PasswordValidator.comparePasswords(newPassword, confirmPassword);
     }
 
-    public Optional<User> updatePassword(ResetForm resetForm, String email, String password) {
+    public Optional<User> updatePassword(String email, String password) {
         return userRepository.findByEmail(email)
                 .map(existingUser -> {
                     try {
