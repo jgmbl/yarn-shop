@@ -3,7 +3,7 @@ package pl.jgmbl.yarnshop.login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import pl.jgmbl.yarnshop.register.HashPasswordService;
+import pl.jgmbl.yarnshop.HashPasswordService;
 import pl.jgmbl.yarnshop.user.User;
 import pl.jgmbl.yarnshop.user.UserRepository;
 

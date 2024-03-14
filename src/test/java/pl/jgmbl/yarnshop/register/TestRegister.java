@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import pl.jgmbl.yarnshop.HashPasswordService;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -25,7 +26,7 @@ public class TestRegister {
     private static MockMvc mockMvc;
 
     @Autowired
-    HashPassword generatePassword;
+    HashPasswordService generatePassword;
 
     @Autowired
     RegisterService registerService;
@@ -50,7 +51,7 @@ public class TestRegister {
         String password = "password";
         byte[] hashedPassword = generatePassword.hashPassword(password);
 
-        boolean checkedPasswordHashing = generatePassword.checkPasswordHashing(password, hashedPassword);
+        boolean checkedPasswordHashing = generatePassword.checkHashedPasswords(password, hashedPassword);
 
         Assertions.assertTrue(checkedPasswordHashing);
     }
@@ -89,7 +90,7 @@ public class TestRegister {
     public void testRegistrationDenied() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/register")
                         .param("email", "admin@test.com")
-                        .param("password", "password")
+                        .param("password", "password1")
                         .param("confirmpassword", "password"))
                 .andExpect(view().name("register2"))
                 .andExpect(status().isOk());
