@@ -41,7 +41,7 @@ public class ResetPasswordController {
     @PostMapping("/login/resetpassword/password")
     public String resetPassword(@ModelAttribute(name = "resetForm") ResetForm resetForm, Model model) {
         if (resetPasswordService.checkPasswords(resetForm.getNewpassword(), resetForm.getConfirmpassword())) {
-            Optional<User> updatedUser = resetPasswordService.updatePassword(resetForm, confirmed_email);
+            Optional<User> updatedUser = resetPasswordService.updatePassword(resetForm, confirmed_email, resetForm.getNewpassword());
 
             if (updatedUser.isPresent()) {
                 return "redirect:/login";

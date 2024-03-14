@@ -29,19 +29,17 @@ public class ResetPasswordService {
                 PasswordValidator.comparePasswords(newPassword, confirmPassword);
     }
 
-    public Optional<User> updatePassword(ResetForm resetForm, String email) {
+    public Optional<User> updatePassword(ResetForm resetForm, String email, String password) {
         return userRepository.findByEmail(email)
                 .map(existingUser -> {
                     try {
-                        byte[] hashedPassword = hashPasswordService.hashPassword(resetForm.getNewpassword());
+                        byte[] hashedPassword = hashPasswordService.hashPassword(password);
 
                         existingUser.setEmail(email);
                         existingUser.setPassword(hashedPassword);
 
                         return userRepository.save(existingUser);
-                    } catch (NoSuchAlgorithmException e) {
-                        throw new RuntimeException(e);
-                    } catch (InvalidKeySpecException e) {
+                    } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
                         throw new RuntimeException(e);
                     }
                 });
