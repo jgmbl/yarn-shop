@@ -82,7 +82,7 @@ public class TestRegister {
                         .param("email", "host@test.com")
                         .param("password", "password")
                         .param("confirmpassword", "password"))
-                .andExpect(view().name("redirect:/account"))
+                .andExpect(view().name("redirect:/login"))
                 .andExpect(status().is3xxRedirection());
     }
 

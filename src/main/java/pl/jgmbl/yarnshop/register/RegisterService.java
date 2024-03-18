@@ -38,7 +38,7 @@ public class RegisterService {
             User user = new User(registerForm.getEmail().toLowerCase(), hashedPassword);
             userRepository.save(user);
 
-            return "redirect:/account";
+            return "redirect:/login";
         }
 
         model.addAttribute("InvalidCredentials", true);
