@@ -1,6 +1,5 @@
 package pl.jgmbl.yarnshop.account.deletion;
 
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jgmbl.yarnshop.user.User;
@@ -13,8 +12,18 @@ public class AccountDeletionService {
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
-    HttpSession httpSession;
+    private String email;
+
+    public AccountDeletionService() {
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public Boolean deleteAccountBySessionId() {
         Integer sessionId = returnSessionAccountId();
@@ -27,9 +36,7 @@ public class AccountDeletionService {
     }
 
     public Integer returnSessionAccountId() {
-        Object sessionAttribute = httpSession.getAttribute("username");
-        String sessionEmail = sessionAttribute.toString();
-        Optional<User> optionalUser = userRepository.findByEmail(sessionEmail);
+        Optional<User> optionalUser = userRepository.findByEmail(email);
 
         Integer userId = optionalUser.map(User::getId).orElse(null);
 
