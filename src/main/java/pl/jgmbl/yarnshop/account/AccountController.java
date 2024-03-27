@@ -10,12 +10,9 @@ public class AccountController {
     @Autowired
     HttpSession httpSession;
 
-    @Autowired
-    AccountService accountService;
-
     @GetMapping("/account")
     public String displayAccountPage() {
-        if (httpSession.getAttribute("username") != null) {
+        if (isUserLoggedIn()) {
             return "account2";
         }
 
@@ -24,11 +21,20 @@ public class AccountController {
 
     @GetMapping("/logout")
     public String logOutUser() {
-        if (httpSession.getAttribute("username") != null) {
-            accountService.endSession();
+        if (isUserLoggedIn()) {
+            httpSession.invalidate();
             return "redirect:/login";
         }
 
         return "account2";
+    }
+
+
+    public boolean isUserLoggedIn() {
+        if (httpSession.getAttribute("username") != null) {
+            return true;
+        }
+
+        return false;
     }
 }
