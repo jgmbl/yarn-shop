@@ -15,6 +15,13 @@ public class HomepageController {
 
     @GetMapping("/")
     public String displayHomepage(Model model) {
+        isUserLoggedIn(model);
+
+        return "homepage";
+    }
+
+
+    public void isUserLoggedIn (Model model) {
         Object user = httpSession.getAttribute("username");
 
         if (user != null) {
@@ -22,7 +29,5 @@ public class HomepageController {
         } else {
             model.addAttribute("isLoggedIn", false);
         }
-
-        return "homepage";
     }
 }
