@@ -18,9 +18,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class TestAccount {
 
     @Autowired
-    AccountController accountController;
-
-    @Autowired
     MockMvc mockMvc;
 
     @Test

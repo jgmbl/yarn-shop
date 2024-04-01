@@ -31,6 +31,10 @@ public class TestAccountDeletion {
     @Autowired
     MockHttpSession session;
 
+    public TestAccountDeletion(MockHttpServletRequest request) {
+        this.request = request;
+    }
+
     @BeforeEach
     public void setUp() {
         session = new MockHttpSession();
