@@ -28,11 +28,7 @@ public class AccountController {
         if (isUserLoggedIn()) {
             Integer accountId = accountService.returnSessionAccountId(httpSession.getAttribute("username").toString());
 
-            System.out.println(accountId);
-
-            ArrayList<String> purchases = accountService.findPurchasesByAccountId(accountId);
-
-            System.out.println(purchases);
+            ArrayList<Purchase> purchases = accountService.findPurchasesByAccountId(accountId);
 
             model.addAttribute("purchases", purchases);
 

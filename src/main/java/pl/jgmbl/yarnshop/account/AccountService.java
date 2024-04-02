@@ -23,13 +23,13 @@ public class AccountService {
     @Autowired
     PurchaseRepository purchaseRepository;
 
-    public ArrayList<String> findPurchasesByAccountId (Integer accountId) {
-        ArrayList<String> purchasesByAccountId = new ArrayList<>();
+    public ArrayList<Purchase> findPurchasesByAccountId (Integer accountId) {
+        ArrayList<Purchase> purchasesByAccountId = new ArrayList<>();
         List<Purchase> allPurchases = findAllPurchases();
 
         for (Purchase purchase : allPurchases) {
             if (purchase.getUser().getId().equals(accountId)) {
-                purchasesByAccountId.add(purchase.toString());
+                purchasesByAccountId.add(purchase);
             }
         }
 
