@@ -27,15 +27,15 @@
             <th scope="col">#</th>
             <th scope="col">Date</th>
             <th scope="col">Order number</th>
-            <th scope="col">Status</th>
+            <th scope="col">State</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr th:each=" purchase: ${purchases}">
             <th scope="row">1</th>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td th:text="${purchase.getDate()}"></td>
+            <td th:text="${purchase.getId()}"></td>
+            <td th:text="${purchase.getState()}"></td>
           </tr>
         </tbody>
       </table>
