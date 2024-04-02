@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import pl.jgmbl.yarnshop.Purchase;
 import pl.jgmbl.yarnshop.PurchaseRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +28,13 @@ public class AccountController {
         if (isUserLoggedIn()) {
             Integer accountId = accountService.returnSessionAccountId(httpSession.getAttribute("username").toString());
 
-            Optional<Purchase> purchases = accountService.findPurchasesByAccountId(accountId);
+            System.out.println(accountId);
+
+            ArrayList<String> purchases = accountService.findPurchasesByAccountId(accountId);
+
+            System.out.println(purchases);
+
+            model.addAttribute("purchases", purchases);
 
             return "account2";
         }

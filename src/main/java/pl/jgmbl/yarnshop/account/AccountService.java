@@ -8,6 +8,8 @@ import pl.jgmbl.yarnshop.PurchaseRepository;
 import pl.jgmbl.yarnshop.user.User;
 import pl.jgmbl.yarnshop.user.UserRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,8 +23,17 @@ public class AccountService {
     @Autowired
     PurchaseRepository purchaseRepository;
 
-    public Optional<Purchase> findPurchasesByAccountId (Integer accountId) {
-        return purchaseRepository.findById(accountId);
+    public ArrayList<String> findPurchasesByAccountId (Integer accountId) {
+        ArrayList<String> purchasesByAccountId = new ArrayList<>();
+        List<Purchase> allPurchases = findAllPurchases();
+
+        for (Purchase purchase : allPurchases) {
+            if (purchase.getUser().getId().equals(accountId)) {
+                purchasesByAccountId.add(purchase.toString());
+            }
+        }
+
+        return purchasesByAccountId;
     }
 
     public Integer returnSessionAccountId(String email) {
@@ -32,4 +43,9 @@ public class AccountService {
 
         return userId;
     }
+
+    private List<Purchase> findAllPurchases () {
+        return purchaseRepository.findAll().stream().toList();
+    }
+
 }
