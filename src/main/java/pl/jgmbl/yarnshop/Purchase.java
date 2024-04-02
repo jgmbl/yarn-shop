@@ -52,4 +52,13 @@ public class Purchase {
     public void setState(String state) {
         this.state = state;
     }
+
+    @Override
+    public String toString() {
+        return "Purchase{" +
+                "id=" + id +
+                ", date=" + date +
+                ", state='" + state + '\'' +
+                '}';
+    }
 }
