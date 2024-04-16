@@ -30,7 +30,7 @@
 <h1>Product Page</h1>
 <br>
 <div class="container">
-    <img src="yarn/1.jpg" width="400" height="400">
+    <img th:src="${yarnById.getPhoto()}" width="400" height="400">
 </div>
 <div class="div-data">
     <h3>Product</h3>
@@ -40,19 +40,19 @@
         <tbody>
           <tr>
             <td>Producer:</td>
-            <td>?</td>
+            <td th:text="${yarnById.getProducer()}"></td>
           </tr>
           <tr>
             <td>Composition:</td>
-            <td>?</td>
+            <td th:text="${yarnById.getComposition()}"></td>
           </tr>
           <tr>
-            <td>Needle:</td>
-            <td>?</td>
+            <td >Needle:</td>
+            <td th:text="${yarnById.getNeedle()}"></td>
           </tr>
           <tr>
             <td><b>Price:</b></td>
-            <td><b>?</b></td>
+            <td th:text="${yarnById.getPrice()}"><b></b></td>
           </tr>
         </tbody>
       </table>
