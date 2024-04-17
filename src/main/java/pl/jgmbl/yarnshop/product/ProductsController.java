@@ -13,6 +13,8 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @GetMapping
+
     @GetMapping("/product/{id}")
     public String displayProductPage(@PathVariable Integer id, Model model) {
         Optional<Yarn> yarnByIdOptional = productService.getYarn(id);
