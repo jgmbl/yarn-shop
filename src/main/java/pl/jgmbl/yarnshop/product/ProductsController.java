@@ -14,7 +14,11 @@ public class ProductsController {
     private ProductsService productsService;
 
     @GetMapping("/products")
-    public String displayProductsPage() {
+    public String displayProductsPage(Model model) {
+        Iterable<Yarn> allYarn = productsService.getAllYarn();
+
+        model.addAttribute("allYarn", allYarn);
+
         return "productspage";
     }
 
@@ -23,6 +27,10 @@ public class ProductsController {
     public String displayProductPage(@PathVariable Integer id, Model model) {
         Optional<Yarn> yarnByIdOptional = productsService.getYarn(id);
         Yarn yarn = yarnByIdOptional.orElse(null);
+
+        if (yarn == null) {
+            return "redirect:/products";
+        }
 
         model.addAttribute("yarnById", yarn);
 
