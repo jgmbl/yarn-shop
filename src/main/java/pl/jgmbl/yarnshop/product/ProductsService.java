@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.function.Function;
 
 @Service
 public class ProductsService {
@@ -21,18 +21,19 @@ public class ProductsService {
         return yarnRepository.findById(id);
     }
 
-    public List<String> getUnduplicatedComposition(Iterable<Yarn> duplicatedComposition) {
-        ArrayList<String> unduplicatedCompositions = new ArrayList<>();
-        for (Yarn yarn : duplicatedComposition) {
-            String composition = yarn.getComposition();
+    public List<String> getUnduplicatedData(Iterable<Yarn> duplicated, Function<Yarn, String> function) {
+        ArrayList<String> unduplicatedData = new ArrayList<>();
+        for (Yarn yarn : duplicated) {
+            String data = function.apply(yarn);
 
-            if (unduplicatedCompositions.contains(composition)) {
+            if (unduplicatedData.contains(data)) {
                 continue;
             }
 
-            unduplicatedCompositions.add(composition);
+            unduplicatedData.add(data);
         }
 
-        return unduplicatedCompositions;
+        return unduplicatedData;
     }
+
 }

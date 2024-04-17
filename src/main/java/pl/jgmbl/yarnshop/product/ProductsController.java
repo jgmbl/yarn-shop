@@ -43,7 +43,7 @@ public class ProductsController {
     @GetMapping("/products/compositions")
     public String displayProductsCompostionsPage(Model model) {
         Iterable<Yarn> allYarn = productsService.getAllYarn();
-        List<String> unduplicatedCompositions = productsService.getUnduplicatedComposition(allYarn);
+        List<String> unduplicatedCompositions = productsService.getUnduplicatedData(allYarn, Yarn::getComposition);
 
         model.addAttribute("allYarn", unduplicatedCompositions);
 
@@ -55,17 +55,41 @@ public class ProductsController {
         composition = composition.substring(composition.lastIndexOf(" ") + 1);
         List<Yarn> byComposition = yarnRepository.findByComposition("100% " + composition);
 
-        Yarn yarn = byComposition.stream()
-                .findFirst()
-                .orElse(null);
-
         model.addAttribute("yarnByComposition", byComposition);
         model.addAttribute("composition", composition);
 
-        if (yarn == null) {
+        if (byComposition.isEmpty()) {
             return "redirect:/products/compositions";
         }
 
         return "productcompositionpage";
+    }
+
+    @GetMapping("/products/producers")
+    public String displayProductsProducerPage(Model model) {
+        Iterable<Yarn> allYarn = productsService.getAllYarn();
+        List<String> unduplicatedProducers = productsService.getUnduplicatedData(allYarn, Yarn::getProducer);
+
+        for (String producer : unduplicatedProducers) {
+            System.out.println(producer);
+        }
+
+        model.addAttribute("allProducers", unduplicatedProducers);
+
+        return "productsproducerspage";
+    }
+
+    @GetMapping("/products/producers/{producer}")
+    public String displayProductsProducerPage(@PathVariable String producer, Model model) {
+        List<Yarn> byProducer = yarnRepository.findByProducer(producer);
+
+        model.addAttribute("yarnByProducer", byProducer);
+        model.addAttribute("producer", producer);
+
+        if (byProducer.isEmpty()) {
+            return "redirect:/products/producers";
+        }
+
+        return "productsproducerpage";
     }
 }
