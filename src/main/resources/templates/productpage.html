@@ -27,16 +27,13 @@
 <style th:insert="~{index.html :: style}"></style>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-<h1>Product Page</h1>
+<h1 th:text="${yarnById.getName()}"></h1>
 <br>
 <div class="container">
     <img th:src="${yarnById.getPhoto()}" width="400" height="400">
 </div>
 <div class="div-data">
-    <h3>Product</h3>
     <table class="table" style="right: 5%;">
-        <thead>
-        </thead>
         <tbody>
           <tr>
             <td>Producer:</td>
