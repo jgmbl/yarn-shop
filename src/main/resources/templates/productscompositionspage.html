@@ -19,7 +19,8 @@
         <tbody>
         <tr th:each="yarn : ${allYarn}">
             <td>
-                <a th:text="${yarn.toString()}"></a>
+                <a th:href="@{/products/compositions/{composition}(composition=${#strings.replace(yarn,'100% ','')})}"
+                   th:text="${yarn.toString()}"></a>
 
             </td>
         </tr>
