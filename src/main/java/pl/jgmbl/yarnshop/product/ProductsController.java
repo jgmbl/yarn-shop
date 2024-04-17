@@ -54,15 +54,17 @@ public class ProductsController {
     public String displayProductsCompostionPage(@PathVariable String composition, Model model) {
         composition = composition.substring(composition.lastIndexOf(" ") + 1);
         List<Yarn> byComposition = yarnRepository.findByComposition("100% " + composition);
+
         Yarn yarn = byComposition.stream()
                 .findFirst()
                 .orElse(null);
 
+        model.addAttribute("yarnByComposition", byComposition);
+        model.addAttribute("composition", composition);
+
         if (yarn == null) {
             return "redirect:/products/compositions";
         }
-
-        model.addAttribute("yarnByComposition", yarn);
 
         return "productcompositionpage";
     }
