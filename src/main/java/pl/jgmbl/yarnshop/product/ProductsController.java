@@ -6,12 +6,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class ProductsController {
     @Autowired
     private ProductsService productsService;
+    @Autowired
+    private YarnRepository yarnRepository;
 
     @GetMapping("/products")
     public String displayProductsPage(Model model) {
@@ -35,5 +38,29 @@ public class ProductsController {
         model.addAttribute("yarnById", yarn);
 
         return "productpage";
+    }
+
+    @GetMapping("/products/compositions")
+    public String displayProductsCompostionsPage(Model model) {
+        Iterable<Yarn> allYarn = productsService.getAllYarn();
+        List<String> unduplicatedCompositions = productsService.getUnduplicatedComposition(allYarn);
+
+        model.addAttribute("allYarn", unduplicatedCompositions);
+
+        return "productscompositionspage";
+    }
+
+    @GetMapping("/products/compositions/{composition:[(?!100%\\\\s).*]}")
+    public String displayProductsCompostionPage(@PathVariable String composition, Model model) {
+        Optional<Yarn> byComposition = yarnRepository.findByComposition("100% " + composition);
+        Yarn yarn = byComposition.orElse(null);
+
+        if (yarn == null) {
+            return "redirect:/products/compositions";
+        }
+
+        model.addAttribute("yarnByComposition", yarn);
+
+        return "productcompositionpage";
     }
 }
