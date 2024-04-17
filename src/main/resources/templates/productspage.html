@@ -14,7 +14,6 @@
     <table class="table">
         <thead>
         <tr>
-            <th scope="col">id</th>
             <th scope="col"></th>
             <th scope="col">Yarn</th>
             <th scope="col">Producer</th>
@@ -22,7 +21,6 @@
         </thead>
         <tbody>
         <tr th:each="yarn : ${allYarn}">
-            <td th:text="${yarn.getId()}"></td>
             <td><img th:src="${yarn.getPhoto()}" width="200" height="200"></td>
             <td>
                 <a th:href="@{/products/{id}(id=${yarn.getId()})}" th:text="${yarn.getName()}"></a>
