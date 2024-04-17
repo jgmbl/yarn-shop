@@ -23,7 +23,7 @@ public class AccountService {
     @Autowired
     PurchaseRepository purchaseRepository;
 
-    public ArrayList<Purchase> findPurchasesByAccountId (Integer accountId) {
+    public ArrayList<Purchase> findPurchasesByAccountId(Integer accountId) {
         ArrayList<Purchase> purchasesByAccountId = new ArrayList<>();
         List<Purchase> allPurchases = findAllPurchases();
 
@@ -44,8 +44,16 @@ public class AccountService {
         return userId;
     }
 
-    private List<Purchase> findAllPurchases () {
+    private List<Purchase> findAllPurchases() {
         return purchaseRepository.findAll().stream().toList();
+    }
+
+    protected boolean isUserLoggedIn() {
+        if (httpSession.getAttribute("username") != null) {
+            return true;
+        }
+
+        return false;
     }
 
 }

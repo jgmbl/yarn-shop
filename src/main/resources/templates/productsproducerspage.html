@@ -17,14 +17,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="yarn : ${allYarn}">
-            <td>
-                <a th:href="@{/products/producers/{producer}(producer=yarn.producer)}"
-                   th:text="${yarn.toString()}"></a>
-
-            </td>
-        </tr>
+            <tr th:each="producer : ${allProducers}">
+                <td>
+                    <a th:href="@{/products/producers/{producer}(producer=${producer})}"
+                       th:text="${producer.toString()}"></a>
+                </td>
+            </tr>
         </tbody>
+        
     </table>
 </body>
 </html>

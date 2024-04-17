@@ -9,8 +9,6 @@ import pl.jgmbl.yarnshop.Purchase;
 import pl.jgmbl.yarnshop.PurchaseRepository;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class AccountController {
@@ -25,7 +23,7 @@ public class AccountController {
 
     @GetMapping("/account")
     public String displayAccountPage(Model model) {
-        if (isUserLoggedIn()) {
+        if (accountService.isUserLoggedIn()) {
             Integer accountId = accountService.returnSessionAccountId(httpSession.getAttribute("username").toString());
 
             ArrayList<Purchase> purchases = accountService.findPurchasesByAccountId(accountId);
@@ -40,7 +38,7 @@ public class AccountController {
 
     @GetMapping("/logout")
     public String logOutUser() {
-        if (isUserLoggedIn()) {
+        if (accountService.isUserLoggedIn()) {
             httpSession.invalidate();
             return "redirect:/login";
         }
@@ -49,11 +47,4 @@ public class AccountController {
     }
 
 
-    public boolean isUserLoggedIn() {
-        if (httpSession.getAttribute("username") != null) {
-            return true;
-        }
-
-        return false;
-    }
 }
