@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface YarnRepository extends JpaRepository<Yarn, Integer> {
     List<Yarn> findByComposition(String composition);
+    List<Yarn> findByProducer(String producer);
 }
