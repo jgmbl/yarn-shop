@@ -50,10 +50,13 @@ public class ProductsController {
         return "productscompositionspage";
     }
 
-    @GetMapping("/products/compositions/{composition:[(?!100%\\\\s).*]}")
+    @GetMapping("/products/compositions/{composition}")
     public String displayProductsCompostionPage(@PathVariable String composition, Model model) {
-        Optional<Yarn> byComposition = yarnRepository.findByComposition("100% " + composition);
-        Yarn yarn = byComposition.orElse(null);
+        composition = composition.substring(composition.lastIndexOf(" ") + 1);
+        List<Yarn> byComposition = yarnRepository.findByComposition("100% " + composition);
+        Yarn yarn = byComposition.stream()
+                .findFirst()
+                .orElse(null);
 
         if (yarn == null) {
             return "redirect:/products/compositions";
