@@ -9,15 +9,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.Optional;
 
 @Controller
-public class ProductController {
+public class ProductsController {
     @Autowired
-    private ProductService productService;
+    private ProductsService productsService;
 
-    @GetMapping
+    @GetMapping("/products")
+    public String displayProductsPage() {
+        return "productspage";
+    }
 
-    @GetMapping("/product/{id}")
+
+    @GetMapping("/products/{id}")
     public String displayProductPage(@PathVariable Integer id, Model model) {
-        Optional<Yarn> yarnByIdOptional = productService.getYarn(id);
+        Optional<Yarn> yarnByIdOptional = productsService.getYarn(id);
         Yarn yarn = yarnByIdOptional.orElse(null);
 
         model.addAttribute("yarnById", yarn);
