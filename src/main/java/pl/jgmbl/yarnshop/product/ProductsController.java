@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import pl.jgmbl.yarnshop.Storage;
+import pl.jgmbl.yarnshop.StorageRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +17,8 @@ public class ProductsController {
     private ProductsService productsService;
     @Autowired
     private YarnRepository yarnRepository;
+    @Autowired
+    StorageRepository storageRepository;
 
     @GetMapping("/products")
     public String displayProductsPage(Model model) {
@@ -30,12 +34,15 @@ public class ProductsController {
     public String displayProductPage(@PathVariable Integer id, Model model) {
         Optional<Yarn> yarnByIdOptional = productsService.getYarn(id);
         Yarn yarn = yarnByIdOptional.orElse(null);
+        Optional<Storage> storageIdOptional = storageRepository.findByYarnId(id);
+        Storage storage = storageIdOptional.orElse(null);
 
         if (yarn == null) {
             return "redirect:/products";
         }
 
         model.addAttribute("yarnById", yarn);
+        model.addAttribute("storage", storage);
 
         return "productpage";
     }
