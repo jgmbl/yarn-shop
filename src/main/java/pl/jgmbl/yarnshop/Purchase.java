@@ -21,6 +21,12 @@ public class Purchase {
     public Purchase() {
     }
 
+    public Purchase(User user, Date date, String state) {
+        this.user = user;
+        this.date = date;
+        this.state = state;
+    }
+
     public Integer getId() {
         return id;
     }

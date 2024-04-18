@@ -1,7 +1,6 @@
-package pl.jgmbl.yarnshop.cart;
+package pl.jgmbl.yarnshop;
 
 import jakarta.persistence.*;
-import pl.jgmbl.yarnshop.Purchase;
 import pl.jgmbl.yarnshop.product.Yarn;
 
 @Entity
@@ -21,6 +20,12 @@ public class PurchasedYarn {
     private Integer count;
 
     public PurchasedYarn() {
+    }
+
+    public PurchasedYarn(Purchase purchase, Yarn yarn, Integer count) {
+        this.purchase = purchase;
+        this.yarn = yarn;
+        this.count = count;
     }
 
     public Integer getId() {
