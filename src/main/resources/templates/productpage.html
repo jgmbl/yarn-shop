@@ -36,25 +36,32 @@
     <table class="table" style="right: 5%;">
         <tbody>
           <tr>
-            <td>Producer:</td>
+            <td>Producer</td>
             <td th:text="${yarnById.getProducer()}"></td>
           </tr>
           <tr>
-            <td>Composition:</td>
+            <td>Composition</td>
             <td th:text="${yarnById.getComposition()}"></td>
           </tr>
           <tr>
-            <td >Needle:</td>
+            <td >Needle</td>
             <td th:text="${yarnById.getNeedle()}"></td>
           </tr>
           <tr>
-            <td><b>Price:</b></td>
+            <td><b>Price €</b></td>
             <td th:text="${yarnById.getPrice()}"><b></b></td>
+          </tr>
+          <br>
+          <tr>
+            <td >Storage</td>
+            <td th:text="${storage.getCount()}"></td>
           </tr>
         </tbody>
       </table>
     <br>
     <br>
+    <label for="quantity">Number of skeins: </label>
+    <input type="number" id="quantity" name="quantity" min="1" max="11" value="1" size="4">
       <button type="button" class="btn btn-primary">Buy</button>
 </div>
 <br>

@@ -1,12 +1,13 @@
 package pl.jgmbl.yarnshop.product;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import pl.jgmbl.yarnshop.Storage;
-import pl.jgmbl.yarnshop.StorageRepository;
+import org.springframework.web.bind.annotation.PostMapping;
+import pl.jgmbl.yarnshop.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,8 @@ public class ProductsController {
     private YarnRepository yarnRepository;
     @Autowired
     StorageRepository storageRepository;
+    @Autowired
+    PurchaseRepository purchaseRepository;
 
     @GetMapping("/products")
     public String displayProductsPage(Model model) {
@@ -44,6 +47,25 @@ public class ProductsController {
         model.addAttribute("yarnById", yarn);
         model.addAttribute("storage", storage);
 
+        return "productpage";
+    }
+
+    @PostMapping("/products/{id}")
+    public String purchaseYarn(@PathVariable Integer id, Model model, HttpSession httpSession) {
+        if (httpSession.getAttribute("username") != null) {
+            Purchase currentPurchase = productsService.returnCurrentPurchase();
+            purchaseRepository.save(currentPurchase);
+
+            Object count = model.getAttribute("quantity");
+            Integer countInt = 0;
+            if (count instanceof Integer) {
+                countInt = (Integer) count;
+            }
+
+            productsService.createPurchasedYarnByYarnId(id, countInt, currentPurchase);
+        } else {
+            return "redirect:/login";
+        }
         return "productpage";
     }
 

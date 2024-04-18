@@ -1,4 +1,4 @@
-package pl.jgmbl.yarnshop.cart;
+package pl.jgmbl.yarnshop;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
