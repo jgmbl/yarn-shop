@@ -14,14 +14,20 @@
     <table class="table">
         <thead>
         <tr>
+            <th scope="col">Yarn</th>
+            <th scope="col">Producer</th>
+            <th scope="col">Composition</th>
             <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr th:each="query : ${searchedData}">
             <td>
-                <a></a>
+                <a th:href="@{/products/{id}(id=${query.id})}"
+                th:text="${query.name}"></a>
             </td>
+            <td th:text="${query.producer}"></td>
+            <td th:text="${query.composition}"></td>
         </tr>
         </tbody>
     </table>
