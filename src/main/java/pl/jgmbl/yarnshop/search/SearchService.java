@@ -13,13 +13,11 @@ public class SearchService {
     @Autowired
     private YarnRepository yarnRepository;
 
-    protected List<Yarn> searchData(SearchForm searchForm) {
+    protected List<Yarn> searchDataByQuery(SearchForm searchForm) {
         String query = searchForm.getQuery();
         List<Yarn> allDataFromRepository = yarnRepository.findAll();
 
-        List<Yarn> matchingData = allDataFromRepository.stream()
-                .filter(yarn -> matchesQuery(yarn, query))
-                .toList();
+        List<Yarn> matchingData = allDataFromRepository.stream().filter(yarn -> matchesQuery(yarn, query)).toList();
 
         if (matchingData.isEmpty()) {
             return null;
@@ -29,8 +27,6 @@ public class SearchService {
     }
 
     private static boolean matchesQuery(Yarn yarn, String query) {
-        return yarn.getName().toLowerCase().contains(query.toLowerCase())
-                || yarn.getProducer().toLowerCase().contains(query.toLowerCase())
-                || yarn.getComposition().toLowerCase().contains(query.toLowerCase());
+        return yarn.getName().toLowerCase().contains(query.toLowerCase()) || yarn.getProducer().toLowerCase().contains(query.toLowerCase()) || yarn.getComposition().toLowerCase().contains(query.toLowerCase());
     }
 }
