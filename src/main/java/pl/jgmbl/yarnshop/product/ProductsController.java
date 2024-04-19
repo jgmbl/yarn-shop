@@ -59,7 +59,9 @@ public class ProductsController {
         if (httpSession.getAttribute("username") != null) {
             Optional<User> optionalUser = userRepository.findByEmail((String) httpSession.getAttribute("username"));
             User user = optionalUser.orElse(null);
-            
+
+            Purchase currentPurchase = productsService.returnCurrentPurchase(user);
+            purchaseRepository.save(currentPurchase);
         } else {
             return "redirect:/login";
         }
