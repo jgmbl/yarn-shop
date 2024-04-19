@@ -50,9 +50,8 @@ public class ProductsService {
     }
 
 
-    protected Purchase returnCurrentPurchase() {
-        User loggedUser = getLoggedUser();
-        Date date = new Date("yyyy-MM-dd");
+    protected Purchase returnCurrentPurchase(User loggedUser) {
+        Date date = new Date();
         String state = "Added to cart";
 
         return new Purchase(loggedUser, date, state);
@@ -65,15 +64,6 @@ public class ProductsService {
         PurchasedYarn purchasedYarn = new PurchasedYarn(purchase, yarn, count);
         purchasedYarnRepository.save(purchasedYarn);
 
-    }
-
-    private User getLoggedUser() {
-        HttpSession session = httpServletRequest.getSession();
-
-        if (session != null) {
-            return (User) session.getAttribute("username");
-        }
-        return null;
     }
 
 }
