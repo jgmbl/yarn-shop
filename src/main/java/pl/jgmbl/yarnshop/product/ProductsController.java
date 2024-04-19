@@ -23,6 +23,8 @@ public class ProductsController {
     @Autowired
     PurchaseRepository purchaseRepository;
     @Autowired
+    PurchasedYarnRepository purchasedYarnRepository;
+    @Autowired
     UserRepository userRepository;
 
     @GetMapping("/products")
@@ -53,15 +55,26 @@ public class ProductsController {
     }
 
     @PostMapping("/cart")
-    public String purchaseYarn(@ModelAttribute("numberOfSkeinsForm") NumberOfSkeinsForm numberOfSkeinsForm, HttpSession httpSession) {
+    public String purchaseYarn(@ModelAttribute("numberOfSkeinsForm") NumberOfSkeinsForm numberOfSkeinsForm, @RequestParam("productId") Integer productId, HttpSession httpSession) {
         Integer quantity = numberOfSkeinsForm.getQuantity();
 
         if (httpSession.getAttribute("username") != null) {
             Optional<User> optionalUser = userRepository.findByEmail((String) httpSession.getAttribute("username"));
             User user = optionalUser.orElse(null);
 
-            Purchase currentPurchase = productsService.returnCurrentPurchase(user);
-            purchaseRepository.save(currentPurchase);
+            List<Purchase> purchases = purchaseRepository.findByUserAndState(user, "Added to cart");
+            if (purchases.isEmpty()) {
+                Purchase currentPurchase = productsService.returnCurrentPurchase(user);
+                purchaseRepository.save(currentPurchase);
+
+                PurchasedYarn purchasedYarnByYarnId = productsService.createPurchasedYarnByYarnId(productId, quantity, currentPurchase);
+                purchasedYarnRepository.save(purchasedYarnByYarnId);
+            } else {
+                Purchase addedToCart = purchases.get(0);
+                PurchasedYarn purchasedYarnByYarnId = productsService.createPurchasedYarnByYarnId(productId, quantity, addedToCart);
+                purchasedYarnRepository.save(purchasedYarnByYarnId);
+            }
+
         } else {
             return "redirect:/login";
         }
