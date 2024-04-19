@@ -60,10 +60,10 @@
       </table>
     <br>
     <br>
-    <form th:action="@{'/products/7'}" method="post">
-        <input type="number" id="quantity" name="quantity" min="1" max="11" value="1" size="4" required>
-        <button type="submit" class="btn btn-primary">Buy</button>
-    </form>
+<form th:action="@{/cart}" th:object="${numberOfSkeinsForm}" method="post">
+    <input type="number" th:field="*{quantity}" id="quantity" name="quantity" min="1" max="11" value="1" size="4" required>
+    <button type="submit" class="btn btn-primary">Buy</button>
+</form>
 </div>
 <br>
 <footer th:insert="~{index.html :: footer}" class="footer"></footer>
