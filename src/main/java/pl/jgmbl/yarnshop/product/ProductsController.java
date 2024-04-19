@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.jgmbl.yarnshop.*;
+import pl.jgmbl.yarnshop.user.User;
+import pl.jgmbl.yarnshop.user.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +22,8 @@ public class ProductsController {
     StorageRepository storageRepository;
     @Autowired
     PurchaseRepository purchaseRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @GetMapping("/products")
     public String displayProductsPage(Model model) {
@@ -49,9 +53,17 @@ public class ProductsController {
     }
 
     @PostMapping("/cart")
-    public String purchaseYarn(@ModelAttribute("numberOfSkeinsForm") NumberOfSkeinsForm numberOfSkeinsForm) {
+    public String purchaseYarn(@ModelAttribute("numberOfSkeinsForm") NumberOfSkeinsForm numberOfSkeinsForm, HttpSession httpSession) {
         Integer quantity = numberOfSkeinsForm.getQuantity();
-        System.out.println(quantity);
+
+        if (httpSession.getAttribute("username") != null) {
+            Optional<User> optionalUser = userRepository.findByEmail((String) httpSession.getAttribute("username"));
+            User user = optionalUser.orElse(null);
+            
+        } else {
+            return "redirect:/login";
+        }
+
         return "redirect:/cart";
     }
 
