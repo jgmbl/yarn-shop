@@ -4,9 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.jgmbl.yarnshop.*;
 
 import java.util.List;
@@ -50,23 +48,9 @@ public class ProductsController {
         return "productpage";
     }
 
-    @PostMapping("/products/{id}")
-    public String purchaseYarn(@PathVariable Integer id, Model model, HttpSession httpSession) {
-        if (httpSession.getAttribute("username") != null) {
-            Purchase currentPurchase = productsService.returnCurrentPurchase();
-            purchaseRepository.save(currentPurchase);
-
-            Object count = model.getAttribute("quantity");
-            Integer countInt = 0;
-            if (count instanceof Integer) {
-                countInt = (Integer) count;
-            }
-
-            productsService.createPurchasedYarnByYarnId(id, countInt, currentPurchase);
-        } else {
-            return "redirect:/login";
-        }
-        return "productpage";
+    @PostMapping("/products/7")
+    public String purchaseYarn() {
+        return "redirect:/cart";
     }
 
     @GetMapping("/products/compositions")
