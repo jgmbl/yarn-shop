@@ -51,6 +51,7 @@ public class ProductsController {
     @PostMapping("/cart")
     public String purchaseYarn(@ModelAttribute("numberOfSkeinsForm") NumberOfSkeinsForm numberOfSkeinsForm) {
         Integer quantity = numberOfSkeinsForm.getQuantity();
+        System.out.println(quantity);
         return "redirect:/cart";
     }
 
