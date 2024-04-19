@@ -48,8 +48,9 @@ public class ProductsController {
         return "productpage";
     }
 
-    @PostMapping("/products/7")
-    public String purchaseYarn() {
+    @PostMapping("/cart")
+    public String purchaseYarn(@ModelAttribute("numberOfSkeinsForm") NumberOfSkeinsForm numberOfSkeinsForm) {
+        Integer quantity = numberOfSkeinsForm.getQuantity();
         return "redirect:/cart";
     }
 
