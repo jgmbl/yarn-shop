@@ -57,12 +57,11 @@ public class ProductsService {
         return new Purchase(loggedUser, date, state);
     }
 
-    protected void createPurchasedYarnByYarnId(Integer yarnId, Integer count, Purchase purchase) {
+    protected PurchasedYarn createPurchasedYarnByYarnId(Integer yarnId, Integer count, Purchase purchase) {
         Optional<Yarn> yarnOptional = yarnRepository.findById(yarnId);
         Yarn yarn = yarnOptional.orElse(null);
 
-        PurchasedYarn purchasedYarn = new PurchasedYarn(purchase, yarn, count);
-        purchasedYarnRepository.save(purchasedYarn);
+        return new PurchasedYarn(purchase, yarn, count);
 
     }
 

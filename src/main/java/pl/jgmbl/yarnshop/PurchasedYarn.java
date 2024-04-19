@@ -10,7 +10,7 @@ public class PurchasedYarn {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "purchase_id")
+    @JoinColumn(name = "purchased_id")
     private Purchase purchase;
 
     @ManyToOne
