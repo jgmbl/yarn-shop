@@ -32,6 +32,7 @@ Functionalities of the application include:
 ## Technologies
 Technologies used:
 - [Spring Boot](https://spring.io/projects/spring-boot)
+- [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
 - [Thymeleaf](https://www.thymeleaf.org/)
 - [MySQL](https://www.mysql.com/)
 - [JUnit](https://junit.org/junit5/)
