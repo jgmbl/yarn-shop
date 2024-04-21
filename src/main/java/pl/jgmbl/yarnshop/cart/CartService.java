@@ -52,7 +52,7 @@ public class CartService {
         return sum;
     }
 
-    private List<PurchasedYarn> getPurchasedYarn(String username) {
+    protected List<PurchasedYarn> getPurchasedYarn(String username) {
         Purchase lastPurchase = getLastPurchaseAddedToCardByLoggedUser(username);
         List<PurchasedYarn> purchasedYarnList = purchasedYarnRepository.findByPurchase(lastPurchase);
 

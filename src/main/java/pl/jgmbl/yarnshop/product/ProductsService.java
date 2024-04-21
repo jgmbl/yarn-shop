@@ -12,6 +12,8 @@ import pl.jgmbl.yarnshop.user.User;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class ProductsService {
@@ -64,5 +66,4 @@ public class ProductsService {
         return new PurchasedYarn(purchase, yarn, count);
 
     }
-
 }
