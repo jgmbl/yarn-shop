@@ -20,7 +20,7 @@
         </thead>
         <tbody>
         <tr th:each="yarnComposition : ${yarnByComposition}">
-            <td><img th:src="${yarnComposition.photo}" width="200" height="200"></td>
+            <td><img th:src="@{yarnComposition.photo}" width="200" height="200"></td>
             <td>
                 <a th:href="@{/products/{id}(id=${yarnComposition.id})}" th:text="${yarnComposition.name}"></a>
             </td>
