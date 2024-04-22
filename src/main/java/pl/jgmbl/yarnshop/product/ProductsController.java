@@ -54,8 +54,6 @@ public class ProductsController {
         return "productpage";
     }
 
-    @PatchMapping
-
     @GetMapping("/products/compositions")
     public String displayProductsCompostionsPage(Model model) {
         Iterable<Yarn> allYarn = productsService.getAllYarn();

@@ -2,8 +2,11 @@ package pl.jgmbl.yarnshop.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.jgmbl.yarnshop.PurchasedYarn;
+import pl.jgmbl.yarnshop.PurchasedYarnRepository;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -11,7 +14,9 @@ import java.util.function.Function;
 @Service
 public class ProductsService {
     @Autowired
-    private YarnRepository yarnRepository;
+    YarnRepository yarnRepository;
+    @Autowired
+    PurchasedYarnRepository purchasedYarnRepository;
 
     public Iterable<Yarn> getAllYarn() {
         return yarnRepository.findAll();
@@ -35,5 +40,4 @@ public class ProductsService {
 
         return unduplicatedData;
     }
-
 }

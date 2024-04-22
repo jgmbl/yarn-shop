@@ -2,12 +2,11 @@ package pl.jgmbl.yarnshop.cart;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.jgmbl.yarnshop.Purchase;
 import pl.jgmbl.yarnshop.PurchaseRepository;
 import pl.jgmbl.yarnshop.PurchasedYarn;
@@ -19,6 +18,7 @@ import pl.jgmbl.yarnshop.user.UserRepository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -78,7 +78,25 @@ public class CartController {
             return "redirect:/login";
         }
 
-        return "redirect:/cart";
+        return "redirect:/cart/update";
     }
 
+//    @PatchMapping("/cart/update")
+//    public String updateYarnInCart() {
+//        List<PurchasedYarn> updatedPurchasedYarns = cartService.updateYarn();
+//
+//        purchasedYarnRepository.deleteAll();
+//        purchasedYarnRepository.saveAll(updatedPurchasedYarns);
+//
+//        return "redirect:/cart";
+//    }
+
+    @GetMapping("/cart/update")
+    public String updateYarnGet() {
+        List<List<Integer>> updatedPurchasedYarns = cartService.updateYarn();
+        for (List<Integer> list : updatedPurchasedYarns) {
+            System.out.println(list);
+        }
+        return "redirect:/cart";
+    }
 }
