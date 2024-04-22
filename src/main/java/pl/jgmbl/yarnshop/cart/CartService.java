@@ -12,10 +12,8 @@ import pl.jgmbl.yarnshop.user.User;
 import pl.jgmbl.yarnshop.user.UserRepository;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 public class CartService {
@@ -92,5 +90,48 @@ public class CartService {
         Purchase lastPurchase = addedToCart.getLast();
 
         return lastPurchase;
+    }
+
+    protected List<List<Integer>> updateYarn() {
+        List<PurchasedYarn> allDataFromPurchasedYarn = purchasedYarnRepository.findAll();
+        List<Integer> listOfYarnId = new ArrayList<>();
+        List<List<PurchasedYarn>> listsOfPurchasesByYarnId = new ArrayList<>();
+
+        for (PurchasedYarn purchasedYarn : allDataFromPurchasedYarn) {
+            if (purchasedYarn.getPurchase().getState().equals("Added to cart") && !listOfYarnId.contains(purchasedYarn.getYarn().getId())) {
+                listOfYarnId.add(purchasedYarn.getYarn().getId());
+            }
+        }
+
+        for (Integer yarnId : listOfYarnId) {
+            List<PurchasedYarn> purchasesByYarnId = new ArrayList<>();
+            for (PurchasedYarn purchasedYarn : allDataFromPurchasedYarn) {
+                if (purchasedYarn.getYarn().getId().equals(yarnId) && purchasedYarn.getPurchase().getState().equals("Added to cart")) {
+                    purchasesByYarnId.add(purchasedYarn);
+                }
+            }
+            listsOfPurchasesByYarnId.add(purchasesByYarnId);
+        }
+
+        List<List<Integer>> yarnIdAndCount = new ArrayList<>();
+        for (List<PurchasedYarn> purchasedYarnList : listsOfPurchasesByYarnId) {
+            int totalYarnCount = 0;
+            Integer yarnId = null;
+            for (PurchasedYarn purchase : purchasedYarnList) {
+                if (purchase.getPurchase().getState().equals("Added to cart")) {
+                    if (yarnId == null) {
+                        yarnId = purchase.getYarn().getId();
+                    }
+                    totalYarnCount += purchase.getCount();
+                }
+            }
+            if (yarnId != null) {
+                List<Integer> yarnIdCount = new ArrayList<>();
+                yarnIdCount.add(yarnId);
+                yarnIdCount.add(totalYarnCount);
+                yarnIdAndCount.add(yarnIdCount);
+            }
+        }
+        return yarnIdAndCount;
     }
 }
