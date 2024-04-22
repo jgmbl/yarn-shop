@@ -6,11 +6,14 @@ import pl.jgmbl.yarnshop.Purchase;
 import pl.jgmbl.yarnshop.PurchaseRepository;
 import pl.jgmbl.yarnshop.PurchasedYarn;
 import pl.jgmbl.yarnshop.PurchasedYarnRepository;
+import pl.jgmbl.yarnshop.product.Yarn;
+import pl.jgmbl.yarnshop.product.YarnRepository;
 import pl.jgmbl.yarnshop.user.User;
 import pl.jgmbl.yarnshop.user.UserRepository;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +25,8 @@ public class CartService {
     UserRepository userRepository;
     @Autowired
     PurchasedYarnRepository purchasedYarnRepository;
+    @Autowired
+    YarnRepository yarnRepository;
 
     protected List<List<Object>> getCardData(String username) {
         List<PurchasedYarn> purchasedYarn = getPurchasedYarn(username);
@@ -62,6 +67,21 @@ public class CartService {
     protected BigDecimal multiplyIntegerBigDecimal(Integer integer, BigDecimal bigDecimal) {
 
         return bigDecimal.multiply(BigDecimal.valueOf(integer));
+    }
+
+    protected Purchase returnCurrentPurchase(User loggedUser) {
+        Date date = new Date();
+        String state = "Added to cart";
+
+        return new Purchase(loggedUser, date, state);
+    }
+
+    protected PurchasedYarn createPurchasedYarnByYarnId(Integer yarnId, Integer count, Purchase purchase) {
+        Optional<Yarn> yarnOptional = yarnRepository.findById(yarnId);
+        Yarn yarn = yarnOptional.orElse(null);
+
+        return new PurchasedYarn(purchase, yarn, count);
+
     }
 
     private Purchase getLastPurchaseAddedToCardByLoggedUser(String username) {
