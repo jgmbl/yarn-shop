@@ -40,6 +40,9 @@ Technologies used:
 
 Frontend is based on [Bootstrap](https://getbootstrap.com/).
 
+## Database
+![](https://github.com/jgmbl/yarn-shop/blob/main/Screenshots/yarn-shop-database.jpg)
+
 ## Tests
 
 The code is tested manually by few users and by unit tests. The prepared tests make it a lot easier to implement new functionalities on top of the existing ones.
