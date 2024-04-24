@@ -78,4 +78,9 @@ public class CartController {
 
         return "redirect:/cart";
     }
+
+    @GetMapping("/purchased")
+    public String displayPurchasedPage() {
+        return "purchasedpage";
+    }
 }
