@@ -92,7 +92,7 @@ public class CartService {
         return lastPurchase;
     }
 
-    protected List<List<Integer>> updateYarn() {
+    protected List<PurchasedYarn> updateYarn() {
         List<PurchasedYarn> allDataFromPurchasedYarn = purchasedYarnRepository.findAll();
         List<Integer> listOfYarnId = new ArrayList<>();
         List<List<PurchasedYarn>> listsOfPurchasesByYarnId = new ArrayList<>();
@@ -132,6 +132,19 @@ public class CartService {
                 yarnIdAndCount.add(yarnIdCount);
             }
         }
-        return yarnIdAndCount;
+
+        List<PurchasedYarn> unduplicatedData = new ArrayList<>();
+        for (List<Integer> yarnIdAndCount1 : yarnIdAndCount) {
+            Integer yarnId = yarnIdAndCount1.get(0);
+            Integer count = yarnIdAndCount1.get(1);
+            List<PurchasedYarn> byYarnId = purchasedYarnRepository.findByYarnId(yarnId);
+            PurchasedYarn first = byYarnId.getFirst();
+            first.setCount(count);
+
+            unduplicatedData.add(first);
+        }
+
+
+        return unduplicatedData;
     }
 }

@@ -93,10 +93,8 @@ public class CartController {
 
     @GetMapping("/cart/update")
     public String updateYarnGet() {
-        List<List<Integer>> updatedPurchasedYarns = cartService.updateYarn();
-        for (List<Integer> list : updatedPurchasedYarns) {
-            System.out.println(list);
-        }
+        List<PurchasedYarn> updatedPurchasedYarns = cartService.updateYarn();
+        
         return "redirect:/cart";
     }
 }
