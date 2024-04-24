@@ -2,7 +2,6 @@ package pl.jgmbl.yarnshop.cart;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,10 +39,12 @@ public class CartController {
     @GetMapping("/cart")
     public String displayCartPage(HttpSession httpSession, Model model) {
         if (httpSession.getAttribute("username") != null) {
-            List<List<Object>> listOfPurchasedYarn = cartService.getCardData((String) httpSession.getAttribute("username"));
+            List<List<Object>> listOfPurchasedYarn = cartService.getCartData((String) httpSession.getAttribute("username"));
             BigDecimal totalPrice = cartService.totalPrice(listOfPurchasedYarn);
+            System.out.println(listOfPurchasedYarn.getFirst().get(4));
 
             model.addAttribute("purchaseList", listOfPurchasedYarn);
+            model.addAttribute("purchaseId", listOfPurchasedYarn.getFirst().get(4));
             model.addAttribute("totalPrice", totalPrice);
             return "cartpage";
 
@@ -79,8 +80,13 @@ public class CartController {
         return "redirect:/cart";
     }
 
-    @GetMapping("/purchased")
-    public String displayPurchasedPage() {
-        return "purchasedpage";
+    @GetMapping("/purchased/{id}")
+    public String displayPurchasedPage(@PathVariable Integer id, HttpSession httpSession) {
+        if (httpSession.getAttribute("username") != null) {
+            cartService.updatePurchaseStatus(id);
+            return "purchasedpage";
+        } else {
+            return "redirect:/login";
+        }
     }
 }

@@ -13,7 +13,6 @@ import pl.jgmbl.yarnshop.user.UserRepository;
 
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Stream;
 
 @Service
 public class CartService {
@@ -26,7 +25,7 @@ public class CartService {
     @Autowired
     YarnRepository yarnRepository;
 
-    protected List<List<Object>> getCardData(String username) {
+    protected List<List<Object>> getCartData(String username) {
         List<PurchasedYarn> purchasedYarn = getPurchasedYarn(username);
         List<List<Object>> cartData = new ArrayList<>();
 
@@ -37,6 +36,7 @@ public class CartService {
             onePurchase.add(purchase.getCount());
             onePurchase.add(purchase.getYarn().getPrice());
             onePurchase.add(multiplyIntegerBigDecimal(purchase.getCount(), purchase.getYarn().getPrice()));
+            onePurchase.add(purchase.getPurchase().getId());
 
             cartData.add(onePurchase);
         }
@@ -92,59 +92,13 @@ public class CartService {
         return lastPurchase;
     }
 
-//    protected List<PurchasedYarn> updateYarn() {
-//        List<PurchasedYarn> allDataFromPurchasedYarn = purchasedYarnRepository.findAll();
-//        List<Integer> listOfYarnId = new ArrayList<>();
-//        List<List<PurchasedYarn>> listsOfPurchasesByYarnId = new ArrayList<>();
-//
-//        for (PurchasedYarn purchasedYarn : allDataFromPurchasedYarn) {
-//            if (purchasedYarn.getPurchase().getState().equals("Added to cart") && !listOfYarnId.contains(purchasedYarn.getYarn().getId())) {
-//                listOfYarnId.add(purchasedYarn.getYarn().getId());
-//            }
-//        }
-//
-//        for (Integer yarnId : listOfYarnId) {
-//            List<PurchasedYarn> purchasesByYarnId = new ArrayList<>();
-//            for (PurchasedYarn purchasedYarn : allDataFromPurchasedYarn) {
-//                if (purchasedYarn.getYarn().getId().equals(yarnId) && purchasedYarn.getPurchase().getState().equals("Added to cart")) {
-//                    purchasesByYarnId.add(purchasedYarn);
-//                }
-//            }
-//            listsOfPurchasesByYarnId.add(purchasesByYarnId);
-//        }
-//
-//        List<List<Integer>> yarnIdAndCount = new ArrayList<>();
-//        for (List<PurchasedYarn> purchasedYarnList : listsOfPurchasesByYarnId) {
-//            int totalYarnCount = 0;
-//            Integer yarnId = null;
-//            for (PurchasedYarn purchase : purchasedYarnList) {
-//                if (purchase.getPurchase().getState().equals("Added to cart")) {
-//                    if (yarnId == null) {
-//                        yarnId = purchase.getYarn().getId();
-//                    }
-//                    totalYarnCount += purchase.getCount();
-//                }
-//            }
-//            if (yarnId != null) {
-//                List<Integer> yarnIdCount = new ArrayList<>();
-//                yarnIdCount.add(yarnId);
-//                yarnIdCount.add(totalYarnCount);
-//                yarnIdAndCount.add(yarnIdCount);
-//            }
-//        }
-//
-//        List<PurchasedYarn> unduplicatedData = new ArrayList<>();
-//        for (List<Integer> yarnIdAndCount1 : yarnIdAndCount) {
-//            Integer yarnId = yarnIdAndCount1.get(0);
-//            Integer count = yarnIdAndCount1.get(1);
-//            List<PurchasedYarn> byYarnId = purchasedYarnRepository.findByYarnId(yarnId);
-//            PurchasedYarn first = byYarnId.getFirst();
-//            first.setCount(count);
-//
-//            unduplicatedData.add(first);
-//        }
-//
-//
-//        return unduplicatedData;
-//    }
+    protected void updatePurchaseStatus (Integer purchaseId) {
+        Optional<Purchase> purchaseOptional = purchaseRepository.findById(purchaseId);
+        Purchase purchase = purchaseOptional.orElse(null);
+
+        if (purchase != null) {
+            purchase.setState("Sent");
+            purchaseRepository.save(purchase);
+        }
+    }
 }
